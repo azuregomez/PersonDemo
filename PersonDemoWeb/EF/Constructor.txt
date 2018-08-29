@@ -1,0 +1,8 @@
+﻿  public persondemoEntities(string cnString) : base(new EntityConnection(new EntityConnectionStringBuilder()
+        {
+            Provider = "System.Data.SqlClient",
+            ProviderConnectionString = cnString,
+            Metadata = "res://*/EF.PersonModel.csdl|res://*/EF.PersonModel.ssdl|res://*/EF.PersonModel.msl"
+        }.ToString()), true)
+        {
+        }

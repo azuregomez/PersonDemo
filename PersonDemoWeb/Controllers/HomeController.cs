@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PersonDemoWeb.EF;
+using PersonDemoWeb.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,21 +12,56 @@ namespace PersonDemoWeb.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return View(GetPeople());
         }
 
-        public ActionResult About()
+        public ActionResult Add(PersonViewModel model)
         {
-            ViewBag.Message = "Your application description page.";
 
-            return View();
+            string cnString = GetCnString();
+            using (var db = new persondemoEntities(cnString))
+            {
+                db.People.Add(new Person()
+                {
+                    LastName = model.NewPerson.LastName,
+                    FirstName = model.NewPerson.FirstName,
+                    Sport = model.NewPerson.Sport
+                });
+                db.SaveChanges();
+            }
+            ModelState.Clear();
+            return View("Index", GetPeople());
         }
 
-        public ActionResult Contact()
+        private PersonViewModel GetPeople()
         {
-            ViewBag.Message = "Your contact page.";
+            var model = new PersonViewModel();
+            string cnString = GetCnString();
+            using (var db = new persondemoEntities(cnString))
+            {
+                model.People = new List<PersonModel>();
+                foreach (Person p in db.People)
+                {
+                    model.People.Add(new PersonModel()
+                    {
+                        LastName = p.LastName,
+                        FirstName = p.FirstName,
+                        Sport = p.Sport
+                    });
+                }
 
-            return View();
+                model.ServerName = db.Database.SqlQuery<string>("SELECT @@SERVERNAME").First();
+                model.NewPerson = new PersonModel();
+            }
+            return model;
+        }
+
+
+        private string GetCnString()
+        {
+            string cnstr = (string)Session["cnString"];            
+
+            return cnstr;
         }
     }
 }
