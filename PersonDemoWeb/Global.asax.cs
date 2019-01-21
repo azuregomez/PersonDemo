@@ -22,8 +22,6 @@ namespace PersonDemoWeb
 
         public void Session_OnStart()
         {
-            // commented out. used for testomg purposes when testing without KV
-            //string cnstr = System.Configuration.ConfigurationManager.ConnectionStrings["personDemoEntities"].ConnectionString;
             string cnstr = (string)GetCnString().Result;
             Session["cnString"] = cnstr;
         }
