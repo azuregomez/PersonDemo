@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -28,19 +29,23 @@ namespace PersonDemoWeb
 
         private async System.Threading.Tasks.Task<string> GetCnString()
         {
-            AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
-            try
-            {
-                var secreturl = System.Configuration.ConfigurationManager.AppSettings["cnStringUrl"];
-                var keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
-                var secret = await keyVaultClient.GetSecretAsync(secreturl)
-                    .ConfigureAwait(false);
-                return secret.Value;
-            }
-            catch (Exception exp)
-            {
-                throw new Exception($"Something went wrong: {exp.Message}");
-            }
+            return ConfigurationManager.ConnectionStrings["dbcnstr"].ConnectionString;
+
+            // the following code is for using Keyvault and MSI:         
+
+            //AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
+            //try
+            //{
+            //    var secreturl = System.Configuration.ConfigurationManager.AppSettings["cnStringUrl"];
+            //    var keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
+            //    var secret = await keyVaultClient.GetSecretAsync(secreturl)
+            //        .ConfigureAwait(false);
+            //    return secret.Value;
+            //}
+            //catch (Exception exp)
+            //{
+            //    throw new Exception($"Something went wrong: {exp.Message}");
+            //}
 
         }
     }
