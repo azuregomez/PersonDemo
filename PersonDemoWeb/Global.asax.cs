@@ -23,7 +23,7 @@ namespace PersonDemoWeb
 
         public void Session_OnStart()
         {
-            var secreturl = System.Configuration.ConfigurationManager.AppSettings["dbcnstr"];
+            var secreturl = System.Configuration.ConfigurationManager.AppSettings["dbcnstr"];            
             string cnstr = (string)GetCnString(secreturl).Result;
             Session["cnString"] = cnstr;
         }
@@ -35,13 +35,12 @@ namespace PersonDemoWeb
             try
             {                
                 var keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
-                var secret = await keyVaultClient.GetSecretAsync(secreturl)
-                    .ConfigureAwait(false);
+                var secret = await keyVaultClient.GetSecretAsync(secreturl).ConfigureAwait(false);
                 return secret.Value;
             }
             catch (Exception exp)
             {
-                throw new Exception($"Something went wrong: {exp.Message}");
+                throw new Exception($"Cannot get secret from Key Vault " + secreturl + ":" + exp.Message);
             }
         }
     }
