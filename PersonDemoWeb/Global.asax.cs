@@ -23,19 +23,17 @@ namespace PersonDemoWeb
 
         public void Session_OnStart()
         {
-            //string cnstr = (string)GetCnString().Result;
-            Session["cnString"] = ConfigurationManager.ConnectionStrings["dbcnstr"].ConnectionString;
+            var secreturl = System.Configuration.ConfigurationManager.AppSettings["dbcnstr"];
+            string cnstr = (string)GetCnString(secreturl).Result;
+            Session["cnString"] = cnstr;
         }
 
-        private async System.Threading.Tasks.Task<string> GetCnString()
+        private async System.Threading.Tasks.Task<string> GetCnString(string secreturl)
         {
-
             // the following code is for using Keyvault and MSI:         
-
             AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
             try
-            {
-                var secreturl = System.Configuration.ConfigurationManager.AppSettings["cnStringUrl"];
+            {                
                 var keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
                 var secret = await keyVaultClient.GetSecretAsync(secreturl)
                     .ConfigureAwait(false);
@@ -45,7 +43,6 @@ namespace PersonDemoWeb
             {
                 throw new Exception($"Something went wrong: {exp.Message}");
             }
-
         }
     }
 }
