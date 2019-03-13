@@ -23,9 +23,13 @@ namespace PersonDemoWeb
 
         public void Session_OnStart()
         {
-            var secreturl = System.Configuration.ConfigurationManager.AppSettings["dbcnstr"];            
-            string cnstr = (string)GetCnString(secreturl).Result;
-            Session["cnString"] = cnstr;
+            // directly from AKV reference:
+            Session["cnString"] = ConfigurationManager.ConnectionStrings["dbcnstr"].ConnectionString;
+
+            // Secret url in app settings and using code to get cnstring from AKV:
+            //var secreturl = System.Configuration.ConfigurationManager.AppSettings["dbcnstr"];            
+            //string cnstr = (string)GetCnString(secreturl).Result;
+            //Session["cnString"] = cnstr;
         }
 
         private async System.Threading.Tasks.Task<string> GetCnString(string secreturl)
