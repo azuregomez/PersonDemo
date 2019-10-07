@@ -33,6 +33,22 @@ namespace PersonDemoWeb.Controllers
             return View("Index", GetPeople());
         }
 
+        public ActionResult Delete(int? id)
+        {
+            if (id!=null)
+            {
+                using (var db = new persondemoEntities(GetCnString()))
+                {
+                    var person = new Person() { ID = id.Value };
+                    db.People.Attach(person);                                                            
+                    db.People.Remove(person);
+                    db.SaveChanges();
+                }
+
+            }            
+            return View("Index", GetPeople());
+        }
+
         private PersonViewModel GetPeople()
         {
             var model = new PersonViewModel();
@@ -46,7 +62,8 @@ namespace PersonDemoWeb.Controllers
                     {
                         LastName = p.LastName,
                         FirstName = p.FirstName,
-                        Sport = p.Sport
+                        Sport = p.Sport,
+                        ID = p.ID
                     });
                 }
 

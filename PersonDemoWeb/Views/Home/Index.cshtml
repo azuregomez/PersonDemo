@@ -26,6 +26,7 @@
                 <td>@p.FirstName</td>
                 <td>@p.LastName</td>
                 <td>@p.Sport</td>
+                <td>@Html.ActionLink("delete","Delete",new { p.ID })</td>
             </tr>
         }
     </tbody>

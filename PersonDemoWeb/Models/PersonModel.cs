@@ -10,6 +10,7 @@ namespace PersonDemoWeb.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Sport { get; set; }
+        public int ID { get; set; }
 
     }
 
