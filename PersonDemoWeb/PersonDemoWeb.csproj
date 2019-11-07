@@ -264,6 +264,7 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <None Include="Properties\PublishProfiles\demo0607 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\DemoApp1-East - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\helium1107Web - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\lakeviewcloudapp04 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\skokie10web - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\skokie11 - Web Deploy.pubxml" />
