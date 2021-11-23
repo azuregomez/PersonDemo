@@ -51,7 +51,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'malva1122web.malva1122ase.appserviceenvironment.net'
+          app-name: 'malva1122web'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISHPROFILE_ASE }}
           package: .
