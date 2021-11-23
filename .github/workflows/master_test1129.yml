@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'malva1122web.malva1122ase.appserviceenvironment.net'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_ASE }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISHPROFILE_ASE }}
           package: .
