@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP app to Azure Web App - test1129
+name: Build and deploy ASP app to ASEv3 via hosted runner
 
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
           path: '/published/**'
 
   deploy:
-    runs-on: windows-latest
+    runs-on: self-hosted
     needs: build
     environment:
       name: 'Production'
@@ -51,7 +51,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'test1129'
+          app-name: 'malva1122web.malva1122ase.appserviceenvironment.net'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4ED5DAF4B35C437FB5FEEB5123D17F11 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_ASE }}
           package: .
