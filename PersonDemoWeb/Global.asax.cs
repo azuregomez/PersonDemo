@@ -6,7 +6,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.Services.AppAuthentication;
 
 namespace PersonDemoWeb
@@ -24,28 +23,9 @@ namespace PersonDemoWeb
         public void Session_OnStart()
         {
             // directly from AKV reference:
-            Session["cnString"] = ConfigurationManager.ConnectionStrings["dbcnstr"].ConnectionString;
-
-            // Secret url in app settings and using code to get cnstring from AKV:
-            //var secreturl = System.Configuration.ConfigurationManager.AppSettings["dbcnstr"];            
-            //string cnstr = (string)GetCnString(secreturl).Result;
-            //Session["cnString"] = cnstr;
+            Session["cnString"] = ConfigurationManager.ConnectionStrings["dbcnstr"].ConnectionString;            
         }
 
-        private async System.Threading.Tasks.Task<string> GetCnString(string secreturl)
-        {
-            // the following code is for using Keyvault and MSI:         
-            AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
-            try
-            {                
-                var keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
-                var secret = await keyVaultClient.GetSecretAsync(secreturl).ConfigureAwait(false);
-                return secret.Value;
-            }
-            catch (Exception exp)
-            {
-                throw new Exception($"Cannot get secret from Key Vault " + secreturl + ":" + exp.Message);
-            }
-        }
+       
     }
 }
